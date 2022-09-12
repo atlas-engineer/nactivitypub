@@ -1,0 +1,37 @@
+#+TITLE:NactivityPub
+
+*NactivityPub is an implementation of ActivityPub (and underlying ActivityStreams) standards for Common Lisp.*
+
+Features:
+- Parsing and un-parsing ActivityStreams JSON-LD objects to/from CLOS objects with convenient accessors on those.
+- Sending and fetching ActivityStreams objects from the ActivityStreams-enabled HTTP(S) URLs.
+- Semantic info extraction with methods like ~name*~, ~url*~, ~author*~, and ~published*~.
+- No reliance on JSON parser—simply use (or implement, if it's not yet there) your preferred JSON backend for [[https://github.com/atlas-egnineer/njson][NJSON]], and don't depend on additional JSON libraries.
+
+* Getting started
+Clone the Git repository to where the compiler can find it:
+#+begin_src sh
+  git clone --recursive https://github.com/atlas-engineer/nactivitypub ~/common-lisp/
+#+end_src
+
+And then load
+- All the NactivityPub dependencies.
+- NJSON backend you prefer, and
+- NactivityPub itself:
+#+begin_src lisp
+  (ql:quickload :njson/cl-json)
+  (ql:quickload :nactivitypub)
+#+end_src
+
+And hack away, fetching objects from ActivityPub-enabled pages and playing with those in REPL:
+#+begin_src lisp
+  (nactivitypub:name* (nactivitypub:fetch-object "https://ephemeral.glitch.social/@aartaka"))
+  ;; => "Stuffed Plush Capybara"
+#+end_src
+
+See package.lisp for a more high-level overview of the API, and docstrings of the exported methods for more granular info.
+
+* Roadmap
+- [ ] Parse JSON-LD according to the standard.
+- [ ] Fetch JSON-LD schemes and somehow transform those into CLOS objects/classes too.
+- [ ] Add tests.
