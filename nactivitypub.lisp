@@ -426,6 +426,22 @@ forms list or just JSON-NAMEs as strings, where
     (t (id object))))
 
 (defmethod published* ((object object))
+  "Get the publication date of the OBJECT, checking all the date-related fields."
   (alex:if-let ((time (j:or_ (published object) (updated object) (start-time object))))
     (local-time:format-timestring nil time :format local-time:+asctime-format+)
     "sometime"))
+
+(defgeneric items* (collection)
+  (:method ((collection object))
+    nil)
+  (:method ((collection base-collection))
+    (loop for item = (first-item collection) then (next item)
+          if (collection-page-p item)
+            append (j:or_ (items item) (ordered-items item))
+          else if (base-p item)
+                 collect item))
+  (:documentation "Get all the items from the collection.
+
+Beware: the number of items in any ActivityStreams collection can be
+arbitrarily large, so first check `total-items' to make sure you've
+got enough space for it."))

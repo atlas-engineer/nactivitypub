@@ -66,7 +66,7 @@ Implements most ActivityStreams and ActivityPub types of objects as
 CLOS classes with convenient accessors.
 
 There is a number of helper functions to extract semantic data from ActivityPub
-objects: `name*', `url*', `author*', `published*'.
+objects: `name*', `url*', `author*', `published*', `items*'.
 
 Important methods to be aware of:
 - `parse-object' ensures that the data one gets from the page is a proper
