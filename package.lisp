@@ -59,7 +59,7 @@
    #:total-items #:first-item #:last-item #:current-item #:items #:ordered-items
    #:part-of #:next #:prev #:start-index
    ;; Helpers.
-   #:name* #:author* #:url* #:published*)
+   #:name* #:author* #:url* #:published* #:items*)
   (:documentation "ActivityPub parsing and transfer library.
 
 Implements most ActivityStreams and ActivityPub types of objects as
