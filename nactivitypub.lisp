@@ -436,8 +436,11 @@ forms list or just JSON-NAMEs as strings, where
     nil)
   (:method ((collection base-collection))
     (loop for item = (first-item collection) then (next item)
+          while (j:truep item)
           if (collection-page-p item)
-            append (j:or_ (items item) (ordered-items item))
+            append (j:or_ (items item)
+                          (and (ordered-collection-p item)
+                               (ordered-items item)))
           else if (base-p item)
                  collect item))
   (:documentation "Get all the items from the collection.
