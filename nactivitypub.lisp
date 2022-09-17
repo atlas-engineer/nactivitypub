@@ -168,7 +168,7 @@ forms list or just JSON-NAMEs as strings, where
          (typep object (quote ,name)))
        ,@(loop for slot in normalized-slots
                for lisp-name = (second slot)
-               for literal-p = (fourth slot)
+               for literal-p = (fifth slot)
                collect `(defmethod ,lisp-name ((object ,name))
                           ,(if literal-p
                                `(slot-value object (quote ,lisp-name))
