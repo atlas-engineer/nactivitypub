@@ -160,7 +160,10 @@ forms list or just JSON-NAMEs as strings, where
     `(progn
        (setf (gethash ,type *classes*) (quote ,name))
        (defclass ,name (,@superclasses)
-         (,@(mapcar (lambda (slot) `(,(second slot) :initform nil)) normalized-slots)))
+         (,@(mapcar (lambda (slot)
+                      `(,(second slot) :initform nil
+                                       :initarg ,(intern (symbol-name (second slot)) :keyword)))
+                    normalized-slots)))
        (defun ,(alex:symbolicate name :-p) (object)
          (typep object (quote ,name)))
        ,@(loop for slot in normalized-slots
