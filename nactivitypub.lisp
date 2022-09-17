@@ -33,7 +33,7 @@ Possibly contains some Lisp-inaccessible properties."))
   (:method ((object list) &key)
     (lparallel:pmapcar #'fetch-object object))
   (:method :around ((object string) &key)
-           (alex:ensure-gethash object *url->object* (call-next-method)))
+    (alex:ensure-gethash object *url->object* (call-next-method)))
   (:method ((object string) &key auth-token)
     (ignore-errors
      (parse-object
