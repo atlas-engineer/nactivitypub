@@ -6,7 +6,7 @@ Features:
 - Parsing and un-parsing ActivityStreams JSON-LD objects to/from CLOS objects with convenient accessors on those.
 - Sending and fetching ActivityStreams objects from the ActivityStreams-enabled HTTP(S) URLs.
 - Semantic info extraction with methods like ~name*~, ~url*~, ~author*~, ~published*~, ~items*~.
-- No reliance on JSON parser—simply use (or implement, if it's not yet there) your preferred JSON backend for [[https://github.com/atlas-egnineer/njson][NJSON]], and don't depend on additional JSON libraries.
+- No reliance on JSON parser—simply use (or implement, if it's not yet there) your preferred JSON backend for [[https://github.com/atlas-engineer/njson][NJSON]], and don't depend on additional JSON libraries.
 
 * Getting started
 Clone the Git repository to where the compiler can find it:
