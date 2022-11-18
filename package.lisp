@@ -4,7 +4,7 @@
 (defpackage #:nactivitypub
   (:use #:cl)
   (:local-nicknames
-   (:j :njson)
+   (:j :njson/aliases)
    (:sera :serapeum)
    (:alex :alexandria))
   (:export

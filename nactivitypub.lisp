@@ -177,8 +177,8 @@ forms list or just JSON-NAMEs as strings, where
        (defmethod unparse-object ((object ,name) &optional hash)
          ,@(loop for (json-name lisp-name . rest) in normalized-slots
                  for deprocessor = (second rest)
-                 collect `(j:when_ (slot-value object (quote ,lisp-name))
-                            (setf (j:get_ ,json-name hash)
+                 collect `(j:when (slot-value object (quote ,lisp-name))
+                            (setf (j:get ,json-name hash)
                                   ,(if deprocessor
                                        `(funcall ,deprocessor (slot-value object (quote ,lisp-name)))
                                        `(slot-value object (quote ,lisp-name))))))
@@ -186,11 +186,11 @@ forms list or just JSON-NAMEs as strings, where
        (defmethod initialize-instance :after ((object ,name) &key original-object)
          (when (hash-table-p original-object)
            ,@(loop for (json-name lisp-name processor) in normalized-slots
-                   collect `(j:when_ (j:get_ ,json-name original-object)
+                   collect `(j:when (j:get ,json-name original-object)
                               (setf (slot-value object (quote ,lisp-name))
                                     ,(if processor
-                                         `(funcall ,processor (j:get_ ,json-name original-object))
-                                         `(j:get_ ,json-name original-object))))))))))
+                                         `(funcall ,processor (j:get ,json-name original-object))
+                                         `(j:get ,json-name original-object))))))))))
 
 (defun unparse-timestring (timestamp)
   (when timestamp
@@ -376,13 +376,13 @@ forms list or just JSON-NAMEs as strings, where
   (:documentation "Return a human-readable name for the object."))
 
 (defmethod name* ((object actor))
-  (j:or_ (name object) (preferred-username object) (id object)))
+  (j:or (name object) (preferred-username object) (id object)))
 
 (defmethod name* ((object object))
-  (j:or_ (name object) (id object)))
+  (j:or (name object) (id object)))
 
 (defmethod name* ((object link))
-  (j:or_ (name object) (id object) (quri:render-uri (href object))))
+  (j:or (name object) (id object) (quri:render-uri (href object))))
 
 (defgeneric author* (object)
   (:method :around ((object t))
@@ -392,13 +392,13 @@ forms list or just JSON-NAMEs as strings, where
   (:documentation "Return the supposed original author of the OBJECT."))
 
 (defmethod author* ((object object))
-  (j:or_ (attributed-to object)
-         (generator object)))
+  (j:or (attributed-to object)
+        (generator object)))
 
 (defmethod author* ((object activity))
-  (j:or_ (origin object)
-         (and (object object)
-              (author* (object object)))))
+  (j:or (origin object)
+        (and (object object)
+             (author* (object object)))))
 
 (defgeneric url* (object)
   (:method ((object string)) object)
@@ -407,13 +407,13 @@ forms list or just JSON-NAMEs as strings, where
            (suitable-url (or (find #'quri:uri-https-p urls)
                              (find #'quri:uri-http-p urls)
                              (first urls))))
-      (j:when_ suitable-url
+      (j:when suitable-url
         (quri:render-uri (quri:uri suitable-url)))))
   (:method ((object sequence))
     (lparallel:pmap (serapeum:class-name-of object) #'url* object))
   (:method ((object hash-table))
-    (url* (or (j:get_ "href" object)
-              (j:get_ "url" object))))
+    (url* (or (j:get "href" object)
+              (j:get "url" object))))
   (:documentation "Get the URL to the OBJECT that it can be referred to by."))
 
 (defmethod url* ((object link))
@@ -430,7 +430,7 @@ forms list or just JSON-NAMEs as strings, where
 
 (defmethod published* ((object object))
   "Get the publication date of the OBJECT, checking all the date-related fields."
-  (alex:if-let ((time (j:or_ (published object) (updated object) (start-time object))))
+  (alex:if-let ((time (j:or (published object) (updated object) (start-time object))))
     (local-time:format-timestring nil time :format local-time:+asctime-format+)
     "sometime"))
 
@@ -441,9 +441,9 @@ forms list or just JSON-NAMEs as strings, where
     (loop for item = (first-item collection) then (next item)
           while (j:truep item)
           if (collection-page-p item)
-            append (j:or_ (items item)
-                          (and (ordered-collection-p item)
-                               (ordered-items item)))
+            append (j:or (items item)
+                         (and (ordered-collection-p item)
+                              (ordered-items item)))
           else if (base-p item)
                  collect item))
   (:documentation "Get all the items from the collection.
