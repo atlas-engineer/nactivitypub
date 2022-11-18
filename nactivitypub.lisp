@@ -422,7 +422,7 @@ forms list or just JSON-NAMEs as strings, where
 (defmethod url* ((object object))
   (cond
     ((stringp (slot-value object 'url)) (slot-value object 'url))
-    ((j:truep (url object))
+    ((j:true (url object))
      (if (link-p (first (uiop:ensure-list (url object))))
          (url* (url object))
          (slot-value object 'url)))
@@ -439,7 +439,7 @@ forms list or just JSON-NAMEs as strings, where
     nil)
   (:method ((collection base-collection))
     (loop for item = (first-item collection) then (next item)
-          while (j:truep item)
+          while (j:true item)
           if (collection-page-p item)
             append (j:or (items item)
                          (and (ordered-collection-p item)
