@@ -11,6 +11,6 @@
   ;; users of the library don't need, but forces us to load the actual
   ;; NJSON back-end, like njson/cl-json, elsewhere. Is that a
   ;; reasonable trade-off?
-  :depends-on (#:njson #:serapeum #:str #:local-time #:lparallel #:dexador #:quri)
+  :depends-on (#:njson/aliases #:serapeum #:str #:local-time #:lparallel #:dexador #:quri)
   :components ((:file "package")
                (:file "nactivitypub")))
