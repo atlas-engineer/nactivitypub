@@ -5,7 +5,7 @@
   :description "An extensible ActivityPub support library for Common Lisp."
   :author "Atlas Engineer LLC"
   :license  "BSD 3-Clause"
-  :version "0.0.4"
+  :version "0.0.5"
   :serial t
   ;; FIXME: Depending on `njson' makes us lighter on dependencies
   ;; users of the library don't need, but forces us to load the actual
