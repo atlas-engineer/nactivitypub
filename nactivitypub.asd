@@ -4,6 +4,9 @@
 (asdf:defsystem #:nactivitypub
   :description "An extensible ActivityPub support library for Common Lisp."
   :author "Atlas Engineer LLC"
+  :homepage "https://github.com/atlas-engineer/nactivitypub"
+  :bug-tracker "https://github.com/atlas-engineer/nactivitypub/issues"
+  :source-control (:git "https://github.com/atlas-engineer/nactivitypub.git")
   :license  "BSD 3-Clause"
   :version "0.0.5"
   :serial t
